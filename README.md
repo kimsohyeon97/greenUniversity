@@ -41,7 +41,7 @@
 -  `Community1`과 `User` 엔티티 **조인 조회**로 작성자 이름 출력
 -  `ModelMapper`를 활용한 **Entity → DTO 자동 매핑**
 
-#  사용 기술  : `Spring Boot` · `QueryDSL` · `ModelMapper` · `JPA` · `MySQL` · `DTO 기반 페이징`
+사용 기술  : `Spring Boot` · `QueryDSL` · `ModelMapper` · `JPA` · `MySQL` · `DTO 기반 페이징`
 
 ## 🔍 커뮤니티 게시글 검색
 
