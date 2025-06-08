@@ -31,6 +31,19 @@
 ## 내가 구현한 기능 
 자세한 코드 리뷰 : 
 
+## 📝 커뮤니티 게시판 목록 조회
+
+카테고리별(공지사항, 자유게시판, 자료실) 게시글을 구분해 조회하고,  
+검색 · 정렬 · 페이지네이션을 통합 처리한 커뮤니티 기능입니다.
+
+-  QueryDSL 기반 **카테고리별 동적 검색 쿼리** 구현
+-  `PageRequestDTO`, `PageResponseDTO` 기반 **공통 페이징 구조** 설계
+-  `Community1`과 `User` 엔티티 **조인 조회**로 작성자 이름 출력
+-  `ModelMapper`를 활용한 **Entity → DTO 자동 매핑**
+
+###  사용 기술  : `Spring Boot` · `QueryDSL` · `ModelMapper` · `JPA` · `MySQL` · `DTO 기반 페이징`
+
+
 
 
 
