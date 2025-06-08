@@ -1,4 +1,6 @@
 <img width="1352" alt="스크린샷 2025-06-07 오후 7 58 24" src="https://github.com/user-attachments/assets/3c243976-0ce7-4038-a32f-19b6abb0d81c" />
+<br><br>
+
 ## 개요
 - 프로젝트 이름 : greenUniversity
 - 프로젝트 목적 : 그린대학교 학사 및 커뮤니티 관리 시스템
