@@ -95,6 +95,20 @@
 
 사용 기술  : `Spring Boot` · `ModelMapper` · `@Transactional` · `Exception Handling` · `DTO 기반 수정 처리`
 
+## 🗑️ 커뮤니티 글 삭제
+
+사용자가 작성한 게시글을 삭제할 수 있으며,  
+**댓글, 첨부파일까지 함께 삭제**되도록 설계했습니다.  
+Controller에서는 간단한 요청만 받고,  
+Service에서 관련 리포지토리를 통해 일괄 처리합니다.
+
+-  게시글 + 댓글 + 첨부파일 **동시 삭제**
+-  삭제 완료 후 카테고리 목록으로 자동 리디렉션
+-  Repository 단위 삭제 → 추후 트랜잭션 도입 가능
+
+사용 기술  : `Spring Boot`, `JPA`, `Repository 연계 삭제`, `DTO`, `Cascade 또는 순차 삭제 설계`
+
+
 
 
 
