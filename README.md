@@ -67,6 +67,109 @@
 
 ###  사용 기술  : `Spring Boot` · `ModelMapper` · `JPA` · `MySQL` · `DTO` · `MultipartFile` · `AJAX`
 
+## 📝 커뮤니티 글쓰기
+
+카테고리(공지, 자유, 자료공유, 묻고답하기)별로 구분된 게시판에 글 작성 및 첨부파일 업로드 기능을 제공합니다.  
+**작성자 IP 저장**, **다중 파일 처리**, **글-파일 연동**, **DTO 기반 엔티티 변환**을 통해 확장성과 유지보수성을 고려한 구조입니다.
+
+- ✅ Multipart 파일 업로드 및 메타데이터 DB 저장
+- ✅ 글 등록 후 외래키(no)를 이용한 파일 연동
+- ✅ 사용자 IP 저장으로 보안 및 로그 추적 가능
+- ✅ 카테고리별 컨트롤러 분기로 게시판 기능 분리
+- ✅ ModelMapper로 Entity ↔ DTO 자동 매핑
+
+### 🔧 사용 기술  
+`Spring Boot` · `ModelMapper` · `MultipartFile` · `JPA` · `MySQL` · `UUID` · `DTO`
+
+## ✏️ 커뮤니티 글 수정
+
+작성자는 기존 글을 언제든지 수정할 수 있으며,  
+**ModelMapper 기반 DTO → Entity 매핑**,  
+**트랜잭션 기반 수정 처리**,  
+**작성자 검증 및 예외 처리**를 통해  
+안전하고 일관된 수정 로직을 구현했습니다.
+
+- ✅ GET 방식으로 기존 글 데이터 조회 후 수정 폼 출력
+- ✅ POST 방식으로 수정 요청 처리 → DTO로 받은 값 덮어쓰기
+- ✅ `ModelMapper`로 수정 항목 자동 매핑
+- ✅ `@Transactional`로 실패 시 자동 롤백 처리
+
+### 🔧 사용 기술  
+`Spring Boot` · `ModelMapper` · `@Transactional` · `Exception Handling` · `DTO 기반 수정 처리`
+
+# 글 삭제
+
+## 커뮤니티 게시글 삭제 – 연관 리소스까지 일괄 정리
+
+커뮤니티 게시판에서는 사용자가 작성한 게시글을 삭제할 수 있도록 했으며, 단순히 게시글만 삭제하는 것이 아닌 **댓글, 첨부파일 등 연관 리소스까지 함께 정리**되도록 구현했습니다.
+
+---
+
+### ✅ **핵심 기술**: 게시글/댓글/파일 Repository 연계 삭제, 일괄 처리 흐름 설계
+
+---
+
+### 🔷 기술 흐름
+
+### 1.  Controller 레이어 – 삭제 요청 처리
+
+```java
+@GetMapping("/Community/delete1")
+public String delete1(@RequestParam("cate") String cate, @RequestParam("no") int no) {
+    communityService.delete1(no);
+    return "redirect:/Community/" + cate;
+}
+
+```
+
+- 특정 게시글 번호 `no`와 카테고리 `cate`를 받아 해당 게시글을 삭제
+- 삭제 완료 후 카테고리 목록 페이지로 리디렉션
+
+> delete2()도 같은 방식으로 익명 게시판이나 비밀 게시판 글을 삭제 처리함
+> 
+
+---
+
+### 2. ⚙️ Service 레이어 – 게시글 및 연관 데이터 삭제 처리
+
+```java
+public void delete1(int no) {
+    community1Repository.deleteById(no);
+    commentRepository.deleteById(no);
+    fileRepository.deleteById(no);
+}
+
+```
+
+- 게시글 삭제 (`Community1Repository`)
+- 해당 글에 달린 댓글 삭제 (`CommentRepository`)
+- 해당 글에 첨부된 파일 정보 삭제 (`FileRepository`)
+
+> delete2()는 Community2 테이블 전용 처리이므로 로직은 동일하지만 Repository만 다름
+> 
+
+---
+
+### 문제와 해결
+
+| 문제 | 해결 |
+| --- | --- |
+| 게시글만 삭제되고 연관 리소스 누락 | 댓글과 파일도 `deleteById()`로 한 번에 정리 |
+| 삭제 순서 미보장 시 외래키 제약 위반 가능성 | 연관 데이터 먼저 삭제 또는 Cascade 설정 고려 |
+| 없는 게시글 삭제 요청 시 예외 발생 가능 | `deleteById()`는 내부적으로 존재하지 않아도 무시 (그러나 예외처리 강화 여지 있음) |
+| DB 정합성 문제 | 트랜잭션 처리 고려 가능 (현재는 메서드 간소화 위주) |
+
+---
+
+### ✅ 성과
+
+- 게시글 삭제 시 **댓글과 파일까지 함께 정리되어 데이터 누락 방지**
+- 사용자는 **단순한 URL 요청만으로도 삭제 후 자동 리디렉션** 경험
+- `Service` 레이어에 연관 처리 책임을 집중시켜 **Controller는 로직 없이 가볍게 구성**
+- 추후 확장 시 트랜잭션 도입, 예외 처리 강화, 소프트 삭제 방식 전환도 유연하게 가능
+
+
+
 
 
 
