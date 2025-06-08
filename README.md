@@ -43,6 +43,32 @@
 
 #  사용 기술  : `Spring Boot` · `QueryDSL` · `ModelMapper` · `JPA` · `MySQL` · `DTO 기반 페이징`
 
+## 🔍 커뮤니티 게시글 검색
+
+공지사항 · 자유게시판 · 자료실 등 카테고리별로 분기된 URL을 통해  
+제목, 내용, 작성자 기준으로 게시글을 검색할 수 있습니다.
+
+-  `QueryDSL` 기반 **카테고리 + 동적 조건 조합** 검색 구현
+-  `PageRequestDTO`, `PageResponseDTO` 기반 **페이징 통합 처리**
+-  `Community1` ↔ `User` 조인으로 **작성자 이름 포함 결과 조회**
+-  `ModelMapper` 사용으로 **Entity → DTO 변환 자동화**
+
+###  사용 기술  : `Spring Boot` · `QueryDSL` · `ModelMapper` · `JPA` · `MySQL` · `DTO 기반 페이징`
+
+## 📝 커뮤니티 게시글 보기
+
+게시글 열람 시 **조회수 증가**와 **상세 정보 출력**, **첨부파일 다운로드**, **비밀번호 잠금 확인** 등을 처리합니다.  
+카테고리별로 view1~view4로 분기 처리되며, 트랜잭션 기반으로 조회수를 안정적으로 반영합니다.
+
+-  조회수 증가 – `@Transactional`로 데이터 일관성 확보
+-  작성자 정보 포함 상세 조회 – Entity → DTO 변환
+-  비밀번호 게시글 AJAX 인증 처리
+-  첨부파일 다운로드 + 다운로드 수 증가
+
+###  사용 기술  : `Spring Boot` · `ModelMapper` · `JPA` · `MySQL` · `DTO` · `MultipartFile` · `AJAX`
+
+
+
 
 
 
